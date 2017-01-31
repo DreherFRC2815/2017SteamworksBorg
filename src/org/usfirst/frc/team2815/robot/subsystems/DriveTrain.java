@@ -28,6 +28,7 @@ public class DriveTrain extends Subsystem {
 	// 2 3
 	public DriveTrain(){
 		gyro = new ADXRS450_Gyro();
+		gyro.reset();
 		
 		P = .3;
 		I = .003;
@@ -43,44 +44,45 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[3] = new CANTalon(3);
 		
 		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
-		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
-		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
-		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[1].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[2].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[3].changeControlMode(TalonControlMode.Speed);
 		
 		SRXMotors[0].setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		SRXMotors[0].setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		SRXMotors[0].setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		SRXMotors[0].setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		SRXMotors[1].setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		SRXMotors[2].setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		SRXMotors[3].setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		
 		SRXMotors[0].configNominalOutputVoltage(+0f, -0f);
-		SRXMotors[0].configNominalOutputVoltage(+0f, -0f);
-		SRXMotors[0].configNominalOutputVoltage(+0f, -0f);
-		SRXMotors[0].configNominalOutputVoltage(+0f, -0f);
+		SRXMotors[1].configNominalOutputVoltage(+0f, -0f);
+		SRXMotors[2].configNominalOutputVoltage(+0f, -0f);
+		SRXMotors[3].configNominalOutputVoltage(+0f, -0f);
 		
 		SRXMotors[0].configPeakOutputVoltage(+12f, -12f);
-		SRXMotors[0].configPeakOutputVoltage(+12f, -12f);
-		SRXMotors[0].configPeakOutputVoltage(+12f, -12f);
-		SRXMotors[0].configPeakOutputVoltage(+12f, -12f);
+		SRXMotors[1].configPeakOutputVoltage(+12f, -12f);
+		SRXMotors[2].configPeakOutputVoltage(+12f, -12f);
+		SRXMotors[3].configPeakOutputVoltage(+12f, -12f);
 		
 		SRXMotors[0].setCloseLoopRampRate(2);
-		SRXMotors[0].setCloseLoopRampRate(2);
-		SRXMotors[0].setCloseLoopRampRate(2);
-		SRXMotors[0].setCloseLoopRampRate(2);
+		SRXMotors[1].setCloseLoopRampRate(2);
+		SRXMotors[2].setCloseLoopRampRate(2);
+		SRXMotors[3].setCloseLoopRampRate(2);
 		
 		SRXMotors[0].setVoltageRampRate(2);
-		SRXMotors[0].setVoltageRampRate(2);
-		SRXMotors[0].setVoltageRampRate(2);
-		SRXMotors[0].setVoltageRampRate(2);
+		SRXMotors[1].setVoltageRampRate(2);
+		SRXMotors[2].setVoltageRampRate(2);
+		SRXMotors[3].setVoltageRampRate(2);
 		
 		SRXMotors[0].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[0].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[0].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[0].setPID(P, I, D, F, izone, 2, profile);
+		SRXMotors[1].setPID(P, I, D, F, izone, 2, profile);
+		SRXMotors[2].setPID(P, I, D, F, izone, 2, profile);
+		SRXMotors[3].setPID(P, I, D, F, izone, 2, profile);
 	}
 	
 	public void driveMecanumGyro(double y, double x, double zTurn){
 		mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
 	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
