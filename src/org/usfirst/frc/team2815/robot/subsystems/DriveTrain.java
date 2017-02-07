@@ -23,30 +23,53 @@ public class DriveTrain extends Subsystem {
 	int izone;
 	int profile;
 	
+	double pP, pI, pD;
 	public CANTalon[] SRXMotors = new CANTalon[4];
-	// 0 1
-	// 2 3
+	// 0 2
+	// 1 3
 	public DriveTrain(){
+		
+		
+		
 		gyro = new ADXRS450_Gyro();
 		gyro.reset();
 		
-		P = .3;
-		I = .003;
-		D = 3;
-		F = .0003;
-		
-		izone = 7;
-		
+		P = 5.845;  //5.845
+		I = .000;
+		D = 58.45;
+		F = 4.092;	//3.41	
+		izone = 400;		
 		profile = 0;
+		
+		pP = .576875;
+		pI = 0;
+		pD = 5.76875;
+		
 		SRXMotors[0] = new CANTalon(0);
 		SRXMotors[1] = new CANTalon(1);
 		SRXMotors[2] = new CANTalon(2);
 		SRXMotors[3] = new CANTalon(3);
 		
+		//SRXMotors[0].reverseOutput(true);
+		//SRXMotors[1].reverseOutput(true);
+		SRXMotors[0].reverseSensor(true);
+		SRXMotors[1].reverseSensor(true);
+		
+		
+		SRXMotors[0].reset();
+		SRXMotors[1].reset();
+		SRXMotors[2].reset();
+		SRXMotors[3].reset();
+		
 		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
 		SRXMotors[1].changeControlMode(TalonControlMode.Speed);
 		SRXMotors[2].changeControlMode(TalonControlMode.Speed);
 		SRXMotors[3].changeControlMode(TalonControlMode.Speed);
+		
+		SRXMotors[0].set(0);
+		SRXMotors[1].set(0);
+		SRXMotors[2].set(0);
+		SRXMotors[3].set(0);
 		
 		SRXMotors[0].setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		SRXMotors[1].setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -63,24 +86,134 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2].configPeakOutputVoltage(+12f, -12f);
 		SRXMotors[3].configPeakOutputVoltage(+12f, -12f);
 		
-		SRXMotors[0].setCloseLoopRampRate(2);
-		SRXMotors[1].setCloseLoopRampRate(2);
-		SRXMotors[2].setCloseLoopRampRate(2);
-		SRXMotors[3].setCloseLoopRampRate(2);
+		//SRXMotors[0].configEncoderCodesPerRev(7);
+		//SRXMotors[1].configEncoderCodesPerRev(7);
+		//SRXMotors[2].configEncoderCodesPerRev(7);
+		//SRXMotors[3].configEncoderCodesPerRev(7);
+		//1440
+		//SRXMotors[0].setAllowableClosedLoopErr(80);
+		//SRXMotors[1].setAllowableClosedLoopErr(80);
+		//SRXMotors[2].setAllowableClosedLoopErr(80);
+		//SRXMotors[3].setAllowableClosedLoopErr(80);
+		/*
+		SRXMotors[0].setCloseLoopRampRate(20);
+		SRXMotors[1].setCloseLoopRampRate(20);
+		SRXMotors[2].setCloseLoopRampRate(20);
+		SRXMotors[3].setCloseLoopRampRate(20);
+		*/
+		SRXMotors[0].setVoltageRampRate(24);
+		SRXMotors[1].setVoltageRampRate(24);
+		SRXMotors[2].setVoltageRampRate(24);
+		SRXMotors[3].setVoltageRampRate(24);
 		
-		SRXMotors[0].setVoltageRampRate(2);
-		SRXMotors[1].setVoltageRampRate(2);
-		SRXMotors[2].setVoltageRampRate(2);
-		SRXMotors[3].setVoltageRampRate(2);
+		SRXMotors[0].setPID(P, I, D);
+		SRXMotors[1].setPID(P, I, D);
+		SRXMotors[2].setPID(P, I, D);
+		SRXMotors[3].setPID(P, I, D);
 		
-		SRXMotors[0].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[1].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[2].setPID(P, I, D, F, izone, 2, profile);
-		SRXMotors[3].setPID(P, I, D, F, izone, 2, profile);
+		SRXMotors[0].setF(F);
+		SRXMotors[1].setF(F);
+		SRXMotors[2].setF(F);
+		SRXMotors[3].setF(F);
+					
+		mecanum = new RobotDrive(SRXMotors[0], SRXMotors[1], SRXMotors[2], SRXMotors[3]);
+		mecanum.setMaxOutput(270);
+		
+		mecanum.setSafetyEnabled(false);
+		
+		
 	}
 	
 	public void driveMecanumGyro(double y, double x, double zTurn){
+		//mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
 		mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
+		//mecanum.mecanumDrive_Polar(y, x, zTurn);
+		
+	}
+	
+	public void resetEverything(){
+		
+		
+		gyro.reset();
+		
+	}
+	
+	public void prepareForVelocityControl(){
+		SRXMotors[0].reset();
+		SRXMotors[1].reset();
+		SRXMotors[2].reset();
+		SRXMotors[3].reset();
+		
+		SRXMotors[0].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[1].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[2].changeControlMode(TalonControlMode.Speed);
+		SRXMotors[3].changeControlMode(TalonControlMode.Speed);
+		
+		SRXMotors[0].set(0);
+		SRXMotors[1].set(0);
+		SRXMotors[2].set(0);
+		SRXMotors[3].set(0);
+		
+		SRXMotors[0].setPID(P, I, D);
+		SRXMotors[1].setPID(P, I, D);
+		SRXMotors[2].setPID(P, I, D);
+		SRXMotors[3].setPID(P, I, D);
+		
+		SRXMotors[0].setF(F);
+		SRXMotors[1].setF(F);
+		SRXMotors[2].setF(F);
+		SRXMotors[3].setF(F);
+		
+		SRXMotors[0].enableControl();
+		SRXMotors[1].enableControl();
+		SRXMotors[2].enableControl();
+		SRXMotors[3].enableControl();
+	}
+	
+	public void prepareForDistanceControl(){
+		SRXMotors[0].changeControlMode(TalonControlMode.Position);
+		SRXMotors[1].changeControlMode(TalonControlMode.Position);
+		SRXMotors[2].changeControlMode(TalonControlMode.Position);
+		SRXMotors[3].changeControlMode(TalonControlMode.Position);
+		
+		SRXMotors[0].setEncPosition(SRXMotors[0].getPulseWidthPosition() & 0xFFF);
+		SRXMotors[1].setEncPosition(SRXMotors[1].getPulseWidthPosition() & 0xFFF);
+		SRXMotors[2].setEncPosition(SRXMotors[2].getPulseWidthPosition() & 0xFFF);
+		SRXMotors[3].setEncPosition(SRXMotors[3].getPulseWidthPosition() & 0xFFF);		
+		
+		SRXMotors[0].set(0);
+		SRXMotors[1].set(0);
+		SRXMotors[2].set(0);
+		SRXMotors[3].set(0);
+		
+		SRXMotors[0].setAllowableClosedLoopErr(0);
+		SRXMotors[1].setAllowableClosedLoopErr(0);
+		SRXMotors[2].setAllowableClosedLoopErr(0);
+		SRXMotors[3].setAllowableClosedLoopErr(0);
+		
+		SRXMotors[0].setPID(pP, pI, pD);
+		SRXMotors[1].setPID(pP, pI, pD);
+		SRXMotors[2].setPID(pP, pI, pD);
+		SRXMotors[3].setPID(pP, pI, pD);
+		
+		SRXMotors[0].enableControl();
+		SRXMotors[1].enableControl();
+		SRXMotors[2].enableControl();
+		SRXMotors[3].enableControl();
+		
+	}
+	public void driveDistance(double Ldistance, double Rdistance, boolean initiate){
+		SRXMotors[0].set(Ldistance);
+		SRXMotors[1].set(Ldistance);
+		SRXMotors[2].set(Rdistance);
+		SRXMotors[3].set(Rdistance);
+	}
+	
+	public void forTesting(double lf, double lb, double rf, double rb){
+		SRXMotors[0].set(lf);
+		SRXMotors[1].set(lf);
+		SRXMotors[2].set(lf);
+		SRXMotors[3].set(lf);
 	}
 	
     public void initDefaultCommand() {

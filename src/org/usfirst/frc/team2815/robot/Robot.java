@@ -1,6 +1,11 @@
 
 package org.usfirst.frc.team2815.robot;
 
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team2815.robot.VisionProcessing.GripPipeline;
+import org.usfirst.frc.team2815.robot.autocommands.CenterAuto;
+import org.usfirst.frc.team2815.robot.autocommands.LeftGearAuto;
 import org.usfirst.frc.team2815.robot.commands.DriveMecanum;
 import org.usfirst.frc.team2815.robot.commands.OperateClimber;
 import org.usfirst.frc.team2815.robot.commands.OperateLoader;
@@ -10,12 +15,15 @@ import org.usfirst.frc.team2815.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2815.robot.subsystems.Loader;
 import org.usfirst.frc.team2815.robot.subsystems.Shooter;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 
 /**
@@ -26,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	//git test
+	
 	//OI DECLERATION
 	public static OI oi;
 	
@@ -45,7 +53,16 @@ public class Robot extends IterativeRobot {
 	//AUTOCOMMAND DECLERATION
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-
+	
+	//VISION
+	//private static final int IMG_WIDTH = 320;
+	//private static final int IMG_HEIGHT = 240;
+	
+	//private VisionThread visionThread;
+	//private double centerX = 0.0;
+	//private RobotDrive drive;
+	
+	//private final Object imgLock = new Object();
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -60,13 +77,32 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		loader = new Loader();
 		shooter = new Shooter();
+		
 		//COMMAND INITIALIZATION
 		driveMecanum = new DriveMecanum();
 		operateClimber = new OperateClimber();
 		operateLoader = new OperateLoader();
 		operateShooter = new OperateShooter();
+		
 		//AUTO COMMANDS
-		//chooser.addObject("My Auto", new MyAutoCommand());
+		
+		//VISION
+		//UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	    //camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+	    /*
+	    visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
+	        if (!pipeline.filterContoursOutput().isEmpty()) {
+	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+	            pipeline.filterContoursOutput().get(0);
+	            synchronized (imgLock) {
+	                centerX = r.x + (r.width / 2);
+	            }
+	        }
+	    });
+	    visionThread.start();*/
+	    
+	    chooser.addDefault("Center Auto", new CenterAuto());
+		chooser.addObject("left auto", new LeftGearAuto());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -98,6 +134,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		driveTrain.prepareForDistanceControl();
 		autonomousCommand = chooser.getSelected();
 
 		/*
@@ -108,8 +145,8 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		//if (autonomousCommand != null)
+			//autonomousCommand.start();
 	}
 
 	/**
@@ -128,6 +165,10 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		
+		driveTrain.prepareForVelocityControl();
+		//driveMecanum.start();
+		
 	}
 
 	/**
@@ -136,6 +177,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		/*double centerX;
+		synchronized (imgLock) {
+			centerX = this.centerX;
+		}
+		double turn = centerX - (IMG_WIDTH / 2);*/
+		//drive.arcadeDrive(-0.6, turn * 0.005);
 	}
 
 	/**

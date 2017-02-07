@@ -14,28 +14,28 @@ public class OI {
 
 	public double getLeftYValue() {
 		if (Math.abs(xbox.getRawAxis(1)) >= .05) {
-			return (xbox.getRawAxis(1));
+			return (-xbox.getRawAxis(1));
 		} else
 			return 0;
 	}
 	
 	public double getLeftXValue() {
 		if (Math.abs(xbox.getRawAxis(0)) >= .05) {
-			return (xbox.getRawAxis(0));
+			return (-xbox.getRawAxis(0));
 		} else
 			return 0;
 	}
 
 	public double getRightYValue() {
 		if (Math.abs(xbox.getRawAxis(5)) >= .05) {
-			return (-1 * xbox.getRawAxis(5));
+			return (xbox.getRawAxis(5));
 		} else
 			return 0;
 	}
 
 	public double getRightXValue() {
 		if (Math.abs(xbox.getRawAxis(4)) >= .1) {
-			return (xbox.getRawAxis(4));
+			return (-xbox.getRawAxis(4));
 		} else
 			return 0;
 	}
