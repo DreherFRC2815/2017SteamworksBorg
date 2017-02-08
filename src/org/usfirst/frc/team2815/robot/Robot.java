@@ -167,8 +167,10 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 		
 		driveTrain.prepareForVelocityControl();
-		//driveMecanum.start();
-		
+		driveMecanum.start();
+		operateClimber.start();
+		operateLoader.start();
+		operateShooter.start();
 	}
 
 	/**

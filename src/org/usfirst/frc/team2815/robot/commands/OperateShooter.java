@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2815.robot.commands;
 
+import org.usfirst.frc.team2815.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,6 +12,7 @@ public class OperateShooter extends Command {
     public OperateShooter() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
