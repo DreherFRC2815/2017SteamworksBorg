@@ -100,10 +100,13 @@ public class Robot extends IterativeRobot {
 	        }
 	    });
 	    visionThread.start();*/
-	    
+	    //SMARTDASHBOARD
 	    chooser.addDefault("Center Auto", new CenterAuto());
 		chooser.addObject("left auto", new LeftGearAuto());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+		//ROBOT PREPERATION
+		driveTrain.resetGyro();
 	}
 
 	/**

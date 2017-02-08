@@ -25,11 +25,11 @@ public class DriveTrain extends Subsystem {
 	
 	double pP, pI, pD;
 	public CANTalon[] SRXMotors = new CANTalon[4];
+	
+	String controlMode;
 	// 0 2
 	// 1 3
 	public DriveTrain(){
-		
-		
 		
 		gyro = new ADXRS450_Gyro();
 		gyro.reset();
@@ -121,7 +121,7 @@ public class DriveTrain extends Subsystem {
 		
 		mecanum.setSafetyEnabled(false);
 		
-		
+		controlMode = "velocity";
 	}
 	
 	public void driveMecanumGyro(double y, double x, double zTurn){
@@ -168,6 +168,8 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[1].enableControl();
 		SRXMotors[2].enableControl();
 		SRXMotors[3].enableControl();
+		
+		controlMode = "Veloctiy";
 	}
 	
 	public void prepareForDistanceControl(){
@@ -201,8 +203,35 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2].enableControl();
 		SRXMotors[3].enableControl();
 		
+		controlMode = "Position";
 	}
-	public void driveDistance(double Ldistance, double Rdistance, boolean initiate){
+	
+	public void prepareForVoltageControl(){
+		SRXMotors[0].reset();
+		SRXMotors[1].reset();
+		SRXMotors[2].reset();
+		SRXMotors[3].reset();
+		
+		SRXMotors[0].changeControlMode(TalonControlMode.Voltage);
+		SRXMotors[1].changeControlMode(TalonControlMode.Voltage);
+		SRXMotors[2].changeControlMode(TalonControlMode.Voltage);
+		SRXMotors[3].changeControlMode(TalonControlMode.Voltage);
+		
+		SRXMotors[0].set(0);
+		SRXMotors[1].set(0);
+		SRXMotors[2].set(0);
+		SRXMotors[3].set(0);
+		
+		mecanum.setMaxOutput(12);
+		
+		controlMode = "Voltage";
+	}
+	
+	public void resetGyro(){
+		gyro.reset();
+	}
+	
+	public void driveDistance(double Ldistance, double Rdistance){
 		SRXMotors[0].set(Ldistance);
 		SRXMotors[1].set(Ldistance);
 		SRXMotors[2].set(Rdistance);
@@ -216,6 +245,9 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[3].set(lf);
 	}
 	
+	public String getControlMode(){
+		return controlMode;
+	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

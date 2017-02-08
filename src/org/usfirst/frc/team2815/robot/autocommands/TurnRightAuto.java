@@ -27,7 +27,7 @@ public class TurnRightAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveDistance(-1176.7, 1176.7, true);
+    	Robot.driveTrain.driveDistance(-1176.7, 1176.7);
     	
     	allowOff = true;
     	SmartDashboard.putNumber("Turn error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());

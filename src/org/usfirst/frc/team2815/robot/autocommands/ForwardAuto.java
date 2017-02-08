@@ -24,7 +24,7 @@ public class ForwardAuto extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.driveTrain.driveDistance(2996.75,2996.75, true);
+    	Robot.driveTrain.driveDistance(2996.75,2996.75);
     	
     	
     }

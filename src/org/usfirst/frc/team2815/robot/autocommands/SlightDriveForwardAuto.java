@@ -23,7 +23,7 @@ public class SlightDriveForwardAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveDistance(550, 550, true);
+    	Robot.driveTrain.driveDistance(550, 550);
     	
     	SmartDashboard.putNumber("slight error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
         SmartDashboard.putNumber("slight error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
