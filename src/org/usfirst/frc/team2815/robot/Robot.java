@@ -6,6 +6,7 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team2815.robot.VisionProcessing.GripPipeline;
 import org.usfirst.frc.team2815.robot.autocommands.CenterAuto;
 import org.usfirst.frc.team2815.robot.autocommands.LeftGearAuto;
+import org.usfirst.frc.team2815.robot.autocommands.RightGearAuto;
 import org.usfirst.frc.team2815.robot.commands.DriveMecanum;
 import org.usfirst.frc.team2815.robot.commands.OperateClimber;
 import org.usfirst.frc.team2815.robot.commands.OperateLoader;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team2815.robot.commands.OperateShooter;
 import org.usfirst.frc.team2815.robot.subsystems.Climber;
 import org.usfirst.frc.team2815.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2815.robot.subsystems.Loader;
+import org.usfirst.frc.team2815.robot.subsystems.PIDGyro;
 import org.usfirst.frc.team2815.robot.subsystems.Shooter;
 
 import edu.wpi.cscore.UsbCamera;
@@ -43,6 +45,7 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static Loader loader;
 	public static Shooter shooter;
+	public static PIDGyro pidGyro;
 	
 	//COMMAND DECLERATION
 	Command driveMecanum;
@@ -77,6 +80,7 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		loader = new Loader();
 		shooter = new Shooter();
+		pidGyro = new PIDGyro();
 		
 		//COMMAND INITIALIZATION
 		driveMecanum = new DriveMecanum();
@@ -102,6 +106,7 @@ public class Robot extends IterativeRobot {
 	    visionThread.start();*/
 	    //SMARTDASHBOARD
 	    chooser.addDefault("Center Auto", new CenterAuto());
+	    chooser.addObject("right auto", new RightGearAuto());
 		chooser.addObject("left auto", new LeftGearAuto());
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -158,6 +163,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("gyroPid", driveTrain.getGyroPID());
+		SmartDashboard.putNumber("gyroAngle", driveTrain.getGyroAngle());
 	}
 
 	@Override
@@ -169,6 +176,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		
+		pidGyro.disable();
 		driveTrain.prepareForVelocityControl();
 		driveMecanum.start();
 		operateClimber.start();

@@ -14,6 +14,7 @@ public class SlightDriveForwardAuto extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
+    	requires(Robot.pidGyro);
     }
 
     // Called just before this Command runs the first time

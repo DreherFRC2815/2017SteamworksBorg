@@ -15,24 +15,26 @@ public class DriveTrain extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	RobotDrive mecanum;
+	private RobotDrive mecanum;
 	
-	ADXRS450_Gyro gyro;
+	private ADXRS450_Gyro gyro;
+	double gyroPIDIN;
 	
-	double P,I,D,F;
-	int izone;
-	int profile;
+	private double P,I,D,F;
+	private double pP, pI, pD;
+	private int izone;
+	private int profile;
 	
-	double pP, pI, pD;
 	public CANTalon[] SRXMotors = new CANTalon[4];
 	
-	String controlMode;
+	private String controlMode;
 	// 0 2
 	// 1 3
 	public DriveTrain(){
 		
 		gyro = new ADXRS450_Gyro();
 		gyro.reset();
+		gyroPIDIN = 0;
 		
 		P = 5.845;  //5.845
 		I = .000;
@@ -50,12 +52,9 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2] = new CANTalon(2);
 		SRXMotors[3] = new CANTalon(3);
 		
-		//SRXMotors[0].reverseOutput(true);
-		//SRXMotors[1].reverseOutput(true);
 		SRXMotors[0].reverseSensor(true);
 		SRXMotors[1].reverseSensor(true);
-		
-		
+				
 		SRXMotors[0].reset();
 		SRXMotors[1].reset();
 		SRXMotors[2].reset();
@@ -86,21 +85,6 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2].configPeakOutputVoltage(+12f, -12f);
 		SRXMotors[3].configPeakOutputVoltage(+12f, -12f);
 		
-		//SRXMotors[0].configEncoderCodesPerRev(7);
-		//SRXMotors[1].configEncoderCodesPerRev(7);
-		//SRXMotors[2].configEncoderCodesPerRev(7);
-		//SRXMotors[3].configEncoderCodesPerRev(7);
-		//1440
-		//SRXMotors[0].setAllowableClosedLoopErr(80);
-		//SRXMotors[1].setAllowableClosedLoopErr(80);
-		//SRXMotors[2].setAllowableClosedLoopErr(80);
-		//SRXMotors[3].setAllowableClosedLoopErr(80);
-		/*
-		SRXMotors[0].setCloseLoopRampRate(20);
-		SRXMotors[1].setCloseLoopRampRate(20);
-		SRXMotors[2].setCloseLoopRampRate(20);
-		SRXMotors[3].setCloseLoopRampRate(20);
-		*/
 		SRXMotors[0].setVoltageRampRate(24);
 		SRXMotors[1].setVoltageRampRate(24);
 		SRXMotors[2].setVoltageRampRate(24);
@@ -118,7 +102,6 @@ public class DriveTrain extends Subsystem {
 					
 		mecanum = new RobotDrive(SRXMotors[0], SRXMotors[1], SRXMotors[2], SRXMotors[3]);
 		mecanum.setMaxOutput(270);
-		
 		mecanum.setSafetyEnabled(false);
 		
 		controlMode = "velocity";
@@ -128,13 +111,6 @@ public class DriveTrain extends Subsystem {
 		//mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
 		mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
 		//mecanum.mecanumDrive_Polar(y, x, zTurn);
-		
-	}
-	
-	public void resetEverything(){
-		
-		
-		gyro.reset();
 		
 	}
 	
@@ -229,13 +205,26 @@ public class DriveTrain extends Subsystem {
 	
 	public void resetGyro(){
 		gyro.reset();
+		gyro.calibrate();
+	}
+	
+	public double getGyroAngle(){
+		return gyro.getAngle();
+	}
+	
+	public double getGyroPID(){
+		return gyroPIDIN;
+	}
+	
+	public void setAnglePIDOut(double PIDin){
+		gyroPIDIN = PIDin;
 	}
 	
 	public void driveDistance(double Ldistance, double Rdistance){
-		SRXMotors[0].set(Ldistance);
-		SRXMotors[1].set(Ldistance);
-		SRXMotors[2].set(Rdistance);
-		SRXMotors[3].set(Rdistance);
+		SRXMotors[0].set(Ldistance + gyroPIDIN);
+		SRXMotors[1].set(Ldistance + gyroPIDIN);
+		SRXMotors[2].set(Rdistance + gyroPIDIN);
+		SRXMotors[3].set(Rdistance + gyroPIDIN);
 	}
 	
 	public void forTesting(double lf, double lb, double rf, double rb){
