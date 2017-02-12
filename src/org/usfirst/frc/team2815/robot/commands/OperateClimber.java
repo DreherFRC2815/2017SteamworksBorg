@@ -21,6 +21,9 @@ public class OperateClimber extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.oi.getFlight3()){
+    		Robot.climber.climb(true);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

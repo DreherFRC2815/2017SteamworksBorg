@@ -31,10 +31,14 @@ public class Climber extends Subsystem {
 	public void climb(boolean active){
 		if(active){
 			if(MAX_PCBUS > setPoint){
-				setPoint += .01;
+				if(setPoint < 1){
+					setPoint += .01;
+				}
 			}
 		}else{
-			setPoint -= .01;
+			if(setPoint > 0){
+				setPoint -= .01;
+			}
 		}
 		
 		climbMotor.set(setPoint);

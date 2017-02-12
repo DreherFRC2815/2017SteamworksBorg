@@ -1,9 +1,6 @@
 
 package org.usfirst.frc.team2815.robot;
 
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team2815.robot.VisionProcessing.GripPipeline;
 import org.usfirst.frc.team2815.robot.autocommands.CenterAuto;
 import org.usfirst.frc.team2815.robot.autocommands.LeftGearAuto;
 import org.usfirst.frc.team2815.robot.autocommands.RightGearAuto;
@@ -25,7 +22,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.VisionThread;
+
 
 
 /**
@@ -57,15 +54,6 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
-	//VISION
-	//private static final int IMG_WIDTH = 320;
-	//private static final int IMG_HEIGHT = 240;
-	
-	//private VisionThread visionThread;
-	//private double centerX = 0.0;
-	//private RobotDrive drive;
-	
-	//private final Object imgLock = new Object();
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -89,22 +77,6 @@ public class Robot extends IterativeRobot {
 		operateShooter = new OperateShooter();
 		
 		//AUTO COMMANDS
-		
-		//VISION
-		//UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-	    //camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-	    /*
-	    visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-	        if (!pipeline.filterContoursOutput().isEmpty()) {
-	            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-	            pipeline.filterContoursOutput().get(0);
-	            synchronized (imgLock) {
-	                centerX = r.x + (r.width / 2);
-	            }
-	        }
-	    });
-	    visionThread.start();*/
-	    //SMARTDASHBOARD
 	    chooser.addDefault("Center Auto", new CenterAuto());
 	    chooser.addObject("right auto", new RightGearAuto());
 		chooser.addObject("left auto", new LeftGearAuto());
@@ -153,8 +125,9 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		//if (autonomousCommand != null)
-			//autonomousCommand.start();
+		if (autonomousCommand != null){
+			autonomousCommand.start();
+		}	
 	}
 
 	/**

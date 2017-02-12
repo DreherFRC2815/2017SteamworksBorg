@@ -227,13 +227,6 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[3].set(Rdistance + gyroPIDIN);
 	}
 	
-	public void forTesting(double lf, double lb, double rf, double rb){
-		SRXMotors[0].set(lf);
-		SRXMotors[1].set(lf);
-		SRXMotors[2].set(lf);
-		SRXMotors[3].set(lf);
-	}
-	
 	public String getControlMode(){
 		return controlMode;
 	}

@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class OperateLoader extends Command {
-
+	private boolean lock;
     public OperateLoader() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	lock = false;
     	requires(Robot.loader);
     }
 
@@ -21,6 +22,13 @@ public class OperateLoader extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(Robot.oi.getFlight2() && lock == false){
+    		Robot.loader.load(true);
+    		lock = true;
+    	}
+    	if(Robot.oi.getFlight2() == false){
+    		lock = false;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
