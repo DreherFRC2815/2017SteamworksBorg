@@ -6,6 +6,7 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -28,8 +29,10 @@ public class DriveTrain extends Subsystem {
 	public CANTalon[] SRXMotors = new CANTalon[4];
 	
 	private String controlMode;
-	// 0 2
-	// 1 3
+	
+	boolean drivePolar = false;
+	// 0 3
+	// 1 2
 	public DriveTrain(){
 		
 		gyro = new ADXRS450_Gyro();
@@ -44,16 +47,16 @@ public class DriveTrain extends Subsystem {
 		profile = 0;
 		
 		pP = .576875;
-		pI = 0;
+		pI = .000;
 		pD = 5.76875;
 		
-		SRXMotors[0] = new CANTalon(0);
-		SRXMotors[1] = new CANTalon(1);
-		SRXMotors[2] = new CANTalon(2);
-		SRXMotors[3] = new CANTalon(3);
+		SRXMotors[0] = new CANTalon(1);
+		SRXMotors[1] = new CANTalon(0);
+		SRXMotors[2] = new CANTalon(3);
+		SRXMotors[3] = new CANTalon(2);
 		
-		SRXMotors[0].reverseSensor(true);
-		SRXMotors[1].reverseSensor(true);
+		//SRXMotors[2].reverseSensor(true);
+		//SRXMotors[3].reverseSensor(true);
 				
 		SRXMotors[0].reset();
 		SRXMotors[1].reset();
@@ -85,10 +88,10 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2].configPeakOutputVoltage(+12f, -12f);
 		SRXMotors[3].configPeakOutputVoltage(+12f, -12f);
 		
-		SRXMotors[0].setVoltageRampRate(24);
-		SRXMotors[1].setVoltageRampRate(24);
-		SRXMotors[2].setVoltageRampRate(24);
-		SRXMotors[3].setVoltageRampRate(24);
+		SRXMotors[0].setVoltageRampRate(18);
+		SRXMotors[1].setVoltageRampRate(18);
+		SRXMotors[2].setVoltageRampRate(18);
+		SRXMotors[3].setVoltageRampRate(18);
 		
 		SRXMotors[0].setPID(P, I, D);
 		SRXMotors[1].setPID(P, I, D);
@@ -100,8 +103,10 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[2].setF(F);
 		SRXMotors[3].setF(F);
 					
-		mecanum = new RobotDrive(SRXMotors[0], SRXMotors[1], SRXMotors[2], SRXMotors[3]);
+		mecanum = new RobotDrive(SRXMotors[0], SRXMotors[1], SRXMotors[3], SRXMotors[2]);
 		mecanum.setMaxOutput(270);
+		mecanum.setInvertedMotor(MotorType.kFrontRight, true);
+		mecanum.setInvertedMotor(MotorType.kRearRight, true);
 		mecanum.setSafetyEnabled(false);
 		
 		controlMode = "velocity";
@@ -109,7 +114,12 @@ public class DriveTrain extends Subsystem {
 	
 	public void driveMecanumGyro(double y, double x, double zTurn){
 		//mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
-		mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
+		if(drivePolar){
+			mecanum.mecanumDrive_Polar(y, x, zTurn);
+		}else{
+			mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
+		}
+		
 		//mecanum.mecanumDrive_Polar(y, x, zTurn);
 		
 	}
@@ -149,21 +159,31 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void prepareForDistanceControl(){
+		SRXMotors[0].reset();
+		SRXMotors[1].reset();
+		SRXMotors[2].reset();
+		SRXMotors[3].reset();
+		
 		SRXMotors[0].changeControlMode(TalonControlMode.Position);
 		SRXMotors[1].changeControlMode(TalonControlMode.Position);
 		SRXMotors[2].changeControlMode(TalonControlMode.Position);
 		SRXMotors[3].changeControlMode(TalonControlMode.Position);
 		
+		SRXMotors[0].setEncPosition(0);
+		SRXMotors[1].setEncPosition(0);
+		SRXMotors[2].setEncPosition(0);
+		SRXMotors[3].setEncPosition(0);
+		
 		SRXMotors[0].setEncPosition(SRXMotors[0].getPulseWidthPosition() & 0xFFF);
 		SRXMotors[1].setEncPosition(SRXMotors[1].getPulseWidthPosition() & 0xFFF);
 		SRXMotors[2].setEncPosition(SRXMotors[2].getPulseWidthPosition() & 0xFFF);
 		SRXMotors[3].setEncPosition(SRXMotors[3].getPulseWidthPosition() & 0xFFF);		
-		
+		/*
 		SRXMotors[0].set(0);
 		SRXMotors[1].set(0);
 		SRXMotors[2].set(0);
 		SRXMotors[3].set(0);
-		
+		*/
 		SRXMotors[0].setAllowableClosedLoopErr(0);
 		SRXMotors[1].setAllowableClosedLoopErr(0);
 		SRXMotors[2].setAllowableClosedLoopErr(0);
@@ -183,10 +203,6 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void prepareForVoltageControl(){
-		SRXMotors[0].reset();
-		SRXMotors[1].reset();
-		SRXMotors[2].reset();
-		SRXMotors[3].reset();
 		
 		SRXMotors[0].changeControlMode(TalonControlMode.Voltage);
 		SRXMotors[1].changeControlMode(TalonControlMode.Voltage);
@@ -201,6 +217,8 @@ public class DriveTrain extends Subsystem {
 		mecanum.setMaxOutput(12);
 		
 		controlMode = "Voltage";
+		
+		drivePolar = true;
 	}
 	
 	public void resetGyro(){
@@ -221,11 +239,12 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void driveDistance(double Ldistance, double Rdistance){
-		SRXMotors[0].set(Ldistance + gyroPIDIN);
-		SRXMotors[1].set(Ldistance + gyroPIDIN);
-		SRXMotors[2].set(Rdistance + gyroPIDIN);
-		SRXMotors[3].set(Rdistance + gyroPIDIN);
+		SRXMotors[0].set(Ldistance);
+		SRXMotors[1].set(Ldistance);
+		SRXMotors[2].set(Rdistance);
+		SRXMotors[3].set(Rdistance);
 	}
+	
 	
 	public String getControlMode(){
 		return controlMode;

@@ -34,12 +34,15 @@ public class SlightDriveForwardAuto extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) < 155 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) < 300 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) < 135 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) < 295;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.prepareForDistanceControl();
+    	//Robot.driveTrain.prepareForDistanceControl();
     }
 
     // Called when another command which requires one or more of the same

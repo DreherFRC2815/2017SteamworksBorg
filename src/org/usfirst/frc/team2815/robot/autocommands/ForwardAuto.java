@@ -20,19 +20,18 @@ public class ForwardAuto extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.prepareForDistanceControl();
-    	Robot.pidGyro.setPointZero();
     	Robot.pidGyro.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.driveTrain.driveDistance(2996.75,2996.75);
+    	Robot.driveTrain.driveDistance(2996.75,-2996.75);
     	
-    	SmartDashboard.putNumber("Turn error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
-        SmartDashboard.putNumber("Turn error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
-        SmartDashboard.putNumber("Turn error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
-        SmartDashboard.putNumber("Turn error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
+    	SmartDashboard.putNumber("forward error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
+        SmartDashboard.putNumber("forward error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
+        SmartDashboard.putNumber("forward error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
+        SmartDashboard.putNumber("forward error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
         
         
     }
@@ -51,7 +50,7 @@ public class ForwardAuto extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	SmartDashboard.putBoolean("isForwardEnd", this.isFinished());
-    	Robot.pidGyro.disable();
+    	
     }
 
     // Called when another command which requires one or more of the same

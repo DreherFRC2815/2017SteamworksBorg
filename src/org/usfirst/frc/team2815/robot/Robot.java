@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 	
 	//AUTOCOMMAND DECLERATION
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser chooser = new SendableChooser();
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot {
 		
 		//ROBOT PREPERATION
 		driveTrain.resetGyro();
+		
 	}
 
 	/**
@@ -114,9 +115,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		driveTrain.prepareForDistanceControl();
-		autonomousCommand = chooser.getSelected();
-
+		
+		autonomousCommand = (Command)chooser.getSelected();
+		
+		pidGyro.enable();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -125,6 +127,8 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
+		
+		
 		if (autonomousCommand != null){
 			autonomousCommand.start();
 		}	

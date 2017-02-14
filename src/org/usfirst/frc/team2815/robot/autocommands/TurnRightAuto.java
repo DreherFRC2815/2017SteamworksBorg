@@ -21,12 +21,12 @@ public class TurnRightAuto extends Command {
     	
     	Robot.driveTrain.prepareForDistanceControl();
     	Robot.pidGyro.setPointRight60();
-    	Robot.pidGyro.enable();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveDistance(-1176.7, 1176.7);
+    	Robot.driveTrain.driveDistance(-1176.7, -1176.7);
     	
     	SmartDashboard.putNumber("Turn error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
         SmartDashboard.putNumber("Turn error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
@@ -46,7 +46,7 @@ public class TurnRightAuto extends Command {
     protected void end() {
     	//Robot.driveTrain.prepareForDistanceControl();
     	SmartDashboard.putBoolean("isTurnRightEnd", this.isFinished());
-    	Robot.pidGyro.disable();
+    	
     }
 
     // Called when another command which requires one or more of the same
