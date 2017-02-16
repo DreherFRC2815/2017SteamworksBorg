@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		
 		autonomousCommand = (Command)chooser.getSelected();
 		
-		pidGyro.enable();
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -127,11 +127,13 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		
+		//driveTrain.prepareForDistanceControl();
+		//driveTrain.driveDistance(1, 1);
 		
 		if (autonomousCommand != null){
 			autonomousCommand.start();
-		}	
+		}
+		Scheduler.getInstance().removeAll();
 	}
 
 	/**
@@ -139,9 +141,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		
+		
 		Scheduler.getInstance().run();
+		
 		SmartDashboard.putNumber("gyroPid", driveTrain.getGyroPID());
 		SmartDashboard.putNumber("gyroAngle", driveTrain.getGyroAngle());
+		
+		
 	}
 
 	@Override

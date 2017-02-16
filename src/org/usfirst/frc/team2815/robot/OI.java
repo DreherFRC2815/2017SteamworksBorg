@@ -21,7 +21,7 @@ public class OI {
 	
 	public double getLeftXValue() {
 		if (Math.abs(xbox.getRawAxis(0)) >= .05) {
-			return (xbox.getRawAxis(0));
+			return (-xbox.getRawAxis(0));
 		} else
 			return 0;
 	}

@@ -3,6 +3,7 @@ package org.usfirst.frc.team2815.robot.commands;
 import org.usfirst.frc.team2815.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -22,12 +23,20 @@ public class OperateLoader extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.oi.getFlight2() && lock == false){
+    	/*if(Robot.oi.getFlight2() && lock == false){
     		Robot.loader.load(true);
     		lock = true;
+    		SmartDashboard.putBoolean("its going", true);
     	}
     	if(Robot.oi.getFlight2() == false){
     		lock = false;
+    		SmartDashboard.putBoolean("its going", false);
+    	}
+    	*/
+    	if(Robot.oi.getFlight2()){
+    		Robot.loader.load(true);
+    	}else{
+    		Robot.loader.load(false);
     	}
     }
 

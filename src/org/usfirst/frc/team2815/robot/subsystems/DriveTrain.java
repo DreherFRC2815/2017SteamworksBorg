@@ -43,11 +43,11 @@ public class DriveTrain extends Subsystem {
 		I = .000;
 		D = 58.45;
 		F = 4.092;	//3.41	
-		izone = 400;		
+		izone = 200;		
 		profile = 0;
 		
 		pP = .576875;
-		pI = .000;
+		pI = .000576875;
 		pD = 5.76875;
 		
 		SRXMotors[0] = new CANTalon(1);
@@ -193,6 +193,11 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[1].setPID(pP, pI, pD);
 		SRXMotors[2].setPID(pP, pI, pD);
 		SRXMotors[3].setPID(pP, pI, pD);
+		
+		SRXMotors[0].setIZone(izone);
+		SRXMotors[1].setIZone(izone);
+		SRXMotors[2].setIZone(izone);
+		SRXMotors[3].setIZone(izone);
 		
 		SRXMotors[0].enableControl();
 		SRXMotors[1].enableControl();

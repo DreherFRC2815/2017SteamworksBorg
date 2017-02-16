@@ -19,26 +19,30 @@ public class Loader extends Subsystem {
     private Spark loadMotor;
     
     //incremented value for the motors setpoint
-    private int setPoint;
-    
+    private double incVal;
+    private double setPoint;
     public Loader(){
     	loadMotor = new Spark(RobotMap.loadMotorPort);
+    	incVal = 0;
+    	setPoint = -.4;
     }
     
     public void load(boolean active){
     	if(active){
-			if(MAX_PCBUS > setPoint){
-				if(setPoint < 1){
-					setPoint += .01;
-				}
-			}
+    		if(incVal != setPoint)
+    			if(incVal > setPoint)
+    				incVal -= .1;
+    			if(incVal < setPoint)
+    				incVal += .1;
+			
 		}else{
-			if(setPoint > 0){
-				setPoint -= .01;
-			}
+			if(incVal != 0)
+    			if(incVal > 0)
+    				incVal -= .1;
+    			if(incVal < 0)
+    				incVal += .1;
 		}
-		
-		loadMotor.set(setPoint);
+    	loadMotor.set(incVal);
 	}
     
     public void initDefaultCommand() {
