@@ -56,10 +56,6 @@ public class OI {
 		return xbox.getRawAxis(2);
 	}
 
-	public int getThePOV() {
-		return xbox.getPOV();
-	}
-
 	public boolean getFlight1() {
 		return flight.getRawButton(1);
 	}
@@ -77,6 +73,9 @@ public class OI {
 	}
 
 	public double getFlightY() {
-		return flight.getRawAxis(1);
+		if (Math.abs(flight.getRawAxis(1)) >= .1) {
+			return (flight.getRawAxis(1));
+		} else
+			return 0;
 	}
 }

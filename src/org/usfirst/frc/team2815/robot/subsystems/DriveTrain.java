@@ -40,14 +40,14 @@ public class DriveTrain extends Subsystem {
 		gyroPIDIN = 0;
 		
 		P = 5.845;  //5.845
-		I = .000;
+		I = 0;
 		D = 58.45;
 		F = 4.092;	//3.41	
 		izone = 200;		
 		profile = 0;
 		
 		pP = .576875;
-		pI = .000576875;
+		pI = .00576875;
 		pD = 5.76875;
 		
 		SRXMotors[0] = new CANTalon(1);
@@ -117,7 +117,7 @@ public class DriveTrain extends Subsystem {
 		if(drivePolar){
 			mecanum.mecanumDrive_Polar(y, x, zTurn);
 		}else{
-			mecanum.mecanumDrive_Cartesian(x, y, zTurn, gyro.getAngle());
+			mecanum.mecanumDrive_Cartesian(x, y, zTurn, -1*gyro.getAngle());
 		}
 		
 		//mecanum.mecanumDrive_Polar(y, x, zTurn);
@@ -154,6 +154,8 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[1].enableControl();
 		SRXMotors[2].enableControl();
 		SRXMotors[3].enableControl();
+		
+		mecanum.setMaxOutput(300);
 		
 		controlMode = "Veloctiy";
 	}
@@ -218,6 +220,11 @@ public class DriveTrain extends Subsystem {
 		SRXMotors[1].set(0);
 		SRXMotors[2].set(0);
 		SRXMotors[3].set(0);
+		
+		SRXMotors[0].setCloseLoopRampRate(24);
+		SRXMotors[1].setCloseLoopRampRate(24);
+		SRXMotors[2].setCloseLoopRampRate(24);
+		SRXMotors[3].setCloseLoopRampRate(24);
 		
 		mecanum.setMaxOutput(12);
 		

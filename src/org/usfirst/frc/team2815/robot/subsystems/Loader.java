@@ -24,7 +24,7 @@ public class Loader extends Subsystem {
     public Loader(){
     	loadMotor = new Spark(RobotMap.loadMotorPort);
     	incVal = 0;
-    	setPoint = -.4;
+    	setPoint = -.60;
     }
     
     public void load(boolean active){

@@ -11,7 +11,6 @@ import org.usfirst.frc.team2815.robot.commands.OperateShooter;
 import org.usfirst.frc.team2815.robot.subsystems.Climber;
 import org.usfirst.frc.team2815.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2815.robot.subsystems.Loader;
-import org.usfirst.frc.team2815.robot.subsystems.PIDGyro;
 import org.usfirst.frc.team2815.robot.subsystems.Shooter;
 
 import edu.wpi.cscore.UsbCamera;
@@ -42,7 +41,6 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static Loader loader;
 	public static Shooter shooter;
-	public static PIDGyro pidGyro;
 	
 	//COMMAND DECLERATION
 	Command driveMecanum;
@@ -68,7 +66,7 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		loader = new Loader();
 		shooter = new Shooter();
-		pidGyro = new PIDGyro();
+		
 		
 		//COMMAND INITIALIZATION
 		driveMecanum = new DriveMecanum();
@@ -100,6 +98,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[0].getEncPosition());
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		
-		pidGyro.disable();
+		
 		driveTrain.prepareForVelocityControl();
 		driveMecanum.start();
 		operateClimber.start();
@@ -174,12 +173,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		/*double centerX;
-		synchronized (imgLock) {
-			centerX = this.centerX;
-		}
-		double turn = centerX - (IMG_WIDTH / 2);*/
-		//drive.arcadeDrive(-0.6, turn * 0.005);
+	
 	}
 
 	/**
@@ -188,5 +182,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		SmartDashboard.putNumber("rotations for lF", driveTrain.SRXMotors[0].getEncPosition());
 	}
 }

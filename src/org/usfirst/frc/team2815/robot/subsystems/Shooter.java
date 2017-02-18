@@ -18,28 +18,38 @@ public class Shooter extends Subsystem {
     private Spark shootMotor;
     
     //incremented value for the motors setpoint
-    private double incVal = 0;
-	private double setPoint = -.65;
+    double accel;
+    private double incVal;
+	private double setPoint;
+	private double error;
     public Shooter(){
     	shootMotor = new Spark(RobotMap.shootMotorPort);
+    	accel = .05;
+    	
+    	incVal = 0;
+    	setPoint = .7;
     }
 	
-	public void shoot(boolean active){
+	public void shoot(boolean active, double rate){
+		setPoint = rate;
+		
+		
 		if(active){
     		if(incVal != setPoint)
     			if(incVal > setPoint)
-    				incVal -= .1;
+    				incVal -= accel;
     			if(incVal < setPoint)
-    				incVal += .1;
+    				incVal += accel;
 			
 		}else{
 			if(incVal != 0)
     			if(incVal > 0)
-    				incVal -= .1;
+    				incVal -= accel;
     			if(incVal < 0)
-    				incVal += .1;
+    				incVal += accel;
 		}
 		shootMotor.set(incVal);
+		
 	}
 	
     public void initDefaultCommand() {

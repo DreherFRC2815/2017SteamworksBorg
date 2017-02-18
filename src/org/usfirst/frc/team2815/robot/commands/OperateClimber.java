@@ -23,6 +23,8 @@ public class OperateClimber extends Command {
     protected void execute() {
     	if(Robot.oi.getFlight3()){
     		Robot.climber.climb(true);
+    	}else{
+    		Robot.climber.climb(false);
     	}
     }
 

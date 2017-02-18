@@ -42,20 +42,10 @@ public class ForwardAuto extends Command {
         SmartDashboard.putNumber("forward error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
         SmartDashboard.putNumber("forward error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
         
-        SmartDashboard.putNumber("int error for 0", error0);
-        SmartDashboard.putNumber("int error for 1", error1);
-        SmartDashboard.putNumber("int error for 2", error2);
-        SmartDashboard.putNumber("int error for 3", error3);
-        
-        error0 = Robot.driveTrain.SRXMotors[0].getClosedLoopError();
-        error1 = Robot.driveTrain.SRXMotors[1].getClosedLoopError();
-        error2 = Robot.driveTrain.SRXMotors[2].getClosedLoopError();
-        error3 = Robot.driveTrain.SRXMotors[3].getClosedLoopError();
-        
-        if(Math.abs(error1) > 20 &&
-        		Math.abs(error1) > 20 &&
-        		Math.abs(error1) > 20 &&
-        		Math.abs(error1) > 20
+        if(Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) > 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) > 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) > 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) > 20
         	){
         	finnishLock = false;
         }
@@ -64,10 +54,10 @@ public class ForwardAuto extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return error0 < Math.abs(200) &&
-        		error1 < Math.abs(200) &&
-        		error2< Math.abs(200) &&
-        		error3 < Math.abs(200) && finnishLock == false;
+        return Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) < 200 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) < 200 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) < 200 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) < 200 && finnishLock == false;
         
         
         
