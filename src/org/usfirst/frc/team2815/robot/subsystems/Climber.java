@@ -46,7 +46,7 @@ public class Climber extends Subsystem {
     			if(incVal < 0)
     				incVal += .1;
 		}
-		climbMotors[0].set(incVal);
+		climbMotors[0].set(-1*incVal);
 		climbMotors[1].set(incVal);
 	}
 	
