@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class OperateLoader extends Command {
-	private boolean lock;
+	private boolean negated;
     public OperateLoader() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	lock = false;
+    	negated = false;
     	requires(Robot.loader);
     }
 
@@ -23,21 +23,22 @@ public class OperateLoader extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	/*if(Robot.oi.getFlight2() && lock == false){
-    		Robot.loader.load(true);
-    		lock = true;
-    		SmartDashboard.putBoolean("its going", true);
+    	if(Robot.oi.getFlight5()){
+    		Robot.loader.setNegateValue(-1);
+    		negated = true;
+    	}else{
+    		Robot.loader.setNegateValue(1);
+    		negated = false;
     	}
-    	if(Robot.oi.getFlight2() == false){
-    		lock = false;
-    		SmartDashboard.putBoolean("its going", false);
-    	}
-    	*/
+    	
+    	
     	if(Robot.oi.getFlight2()){
     		Robot.loader.load(true);
     	}else{
     		Robot.loader.load(false);
     	}
+    	
+    	SmartDashboard.putBoolean("isLoaderNegated", negated);
     }
 
     // Make this return true when this Command no longer needs to run execute()

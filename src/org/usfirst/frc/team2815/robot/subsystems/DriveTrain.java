@@ -19,7 +19,6 @@ public class DriveTrain extends Subsystem {
 	private RobotDrive mecanum;
 	
 	private ADXRS450_Gyro gyro;
-	double gyroPIDIN;
 	
 	private double P,I,D,F;
 	private double pP, pI, pD;
@@ -37,13 +36,12 @@ public class DriveTrain extends Subsystem {
 		
 		gyro = new ADXRS450_Gyro();
 		gyro.reset();
-		gyroPIDIN = 0;
 		
 		P = 5.845;  //5.845
 		I = 0;
 		D = 58.45;
 		F = 4.092;	//3.41	
-		izone = 200;		
+		izone = 75;		
 		profile = 0;
 		
 		pP = .576875;
@@ -236,18 +234,11 @@ public class DriveTrain extends Subsystem {
 	public void resetGyro(){
 		gyro.reset();
 		gyro.calibrate();
+		
 	}
 	
 	public double getGyroAngle(){
 		return gyro.getAngle();
-	}
-	
-	public double getGyroPID(){
-		return gyroPIDIN;
-	}
-	
-	public void setAnglePIDOut(double PIDin){
-		gyroPIDIN = PIDin;
 	}
 	
 	public void driveDistance(double Ldistance, double Rdistance){

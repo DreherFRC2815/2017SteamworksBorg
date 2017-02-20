@@ -2,8 +2,10 @@
 package org.usfirst.frc.team2815.robot;
 
 import org.usfirst.frc.team2815.robot.autocommands.CenterAuto;
+import org.usfirst.frc.team2815.robot.autocommands.FullShootAuto;
 import org.usfirst.frc.team2815.robot.autocommands.LeftGearAuto;
 import org.usfirst.frc.team2815.robot.autocommands.RightGearAuto;
+import org.usfirst.frc.team2815.robot.autocommands.ShootAuto;
 import org.usfirst.frc.team2815.robot.commands.DriveMecanum;
 import org.usfirst.frc.team2815.robot.commands.OperateClimber;
 import org.usfirst.frc.team2815.robot.commands.OperateLoader;
@@ -78,6 +80,8 @@ public class Robot extends IterativeRobot {
 	    chooser.addDefault("Center Auto", new CenterAuto());
 	    chooser.addObject("right auto", new RightGearAuto());
 		chooser.addObject("left auto", new LeftGearAuto());
+		chooser.addObject("shootAuto", new FullShootAuto());
+		
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		//ROBOT PREPERATION
@@ -98,7 +102,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[0].getEncPosition());
+		SmartDashboard.putNumber("Rotations 0", driveTrain.SRXMotors[0].getEncPosition());
+		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[1].getEncPosition());
+		SmartDashboard.putNumber("Rotations 2", driveTrain.SRXMotors[2].getEncPosition());
+		SmartDashboard.putNumber("Rotations 3", driveTrain.SRXMotors[3].getEncPosition());
 	}
 
 	/**
@@ -144,10 +151,12 @@ public class Robot extends IterativeRobot {
 		
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putNumber("gyroPid", driveTrain.getGyroPID());
 		SmartDashboard.putNumber("gyroAngle", driveTrain.getGyroAngle());
 		
-		
+		SmartDashboard.putNumber("Rotations 0", driveTrain.SRXMotors[0].getEncPosition());
+		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[1].getEncPosition());
+		SmartDashboard.putNumber("Rotations 2", driveTrain.SRXMotors[2].getEncPosition());
+		SmartDashboard.putNumber("Rotations 3", driveTrain.SRXMotors[3].getEncPosition());
 	}
 
 	@Override

@@ -47,7 +47,11 @@ public class OI {
 	public boolean getXButton() {
 		return xbox.getRawButton(3);
 	}
-
+	
+	public boolean getYButton(){
+		return xbox.getRawButton(4);
+	}
+	
 	public double getRightTrigger() {
 		return xbox.getRawAxis(3);
 	}
@@ -71,11 +75,17 @@ public class OI {
 	public boolean getFlight4() {
 		return flight.getRawButton(4);
 	}
-
+	
+	public boolean getFlight5(){
+		return flight.getRawButton(5);
+	}
+	
 	public double getFlightY() {
 		if (Math.abs(flight.getRawAxis(1)) >= .1) {
 			return (flight.getRawAxis(1));
 		} else
 			return 0;
 	}
+	
+	
 }

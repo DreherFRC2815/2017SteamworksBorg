@@ -9,35 +9,49 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class SlightDriveForwardAuto extends Command {
-
+	
+	boolean finnishLock;
+	
     public SlightDriveForwardAuto() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
-    	
+    	finnishLock = true;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.prepareForDistanceControl();
+    	
+    	finnishLock = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveDistance(550, -550);
+    	Robot.driveTrain.driveDistance(1360, -1360);
+    	
+    	if(Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) > 30
+        	){
+        	finnishLock = false;
+        }
     	
     	SmartDashboard.putNumber("slight error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
         SmartDashboard.putNumber("slight error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
         SmartDashboard.putNumber("slight error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
         SmartDashboard.putNumber("slight error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
+        
+        SmartDashboard.putBoolean("SlightLock", finnishLock);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) < 155 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) < 300 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) < 135 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) < 295;
+    	return Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) < 100 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) < 100 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) < 100 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) < 100 && finnishLock == false;
     }
 
     // Called once after isFinished returns true

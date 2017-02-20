@@ -29,6 +29,10 @@ public class DriveMecanum extends Command {
     	if(Robot.oi.getAButton() && Robot.oi.getXButton()){
     		Robot.driveTrain.prepareForVoltageControl();
     	}
+    	
+    	if(Robot.oi.getYButton()){
+    		Robot.driveTrain.resetGyro();
+    	}
     	 	
     }
 

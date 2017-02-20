@@ -22,13 +22,19 @@ public class Shooter extends Subsystem {
     private double incVal;
 	private double setPoint;
 	private double error;
+	
+	
     public Shooter(){
     	shootMotor = new Spark(RobotMap.shootMotorPort);
     	accel = .05;
     	
+    	
+    	
     	incVal = 0;
     	setPoint = .7;
     }
+    
+    
 	
 	public void shoot(boolean active, double rate){
 		setPoint = rate;

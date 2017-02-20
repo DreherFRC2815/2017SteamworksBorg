@@ -16,11 +16,8 @@ public class LeftGearAuto extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	addSequential(new ControlledPositionControl());
-    	
-    	addSequential(new ForwardAuto());
-    	
+    	addSequential(new ForwardAuto(3880,-3880));
     	addSequential(new TurnRightAuto());
-    	
     	addSequential(new SlightDriveForwardAuto());
     	
     	

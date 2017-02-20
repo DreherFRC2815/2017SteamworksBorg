@@ -17,12 +17,16 @@ public class ForwardAuto extends Command {
 	
 	public boolean finnishLock;
 	
-	
-    public ForwardAuto() {
+	public double lTarg;
+	public double rTarg;
+    public ForwardAuto(double lT, double rT) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
+    	lTarg = lT;
+    	rTarg = rT;
     	
+    	finnishLock = true;
     }
 
     // Called just before this Command runs the first time
@@ -35,7 +39,7 @@ public class ForwardAuto extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.driveTrain.driveDistance(2996.75,-2996.75);
+    	Robot.driveTrain.driveDistance(lTarg,rTarg);
     	
     	SmartDashboard.putNumber("forward error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
         SmartDashboard.putNumber("forward error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());

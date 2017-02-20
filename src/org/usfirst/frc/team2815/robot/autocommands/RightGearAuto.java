@@ -13,7 +13,7 @@ public class RightGearAuto extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	addSequential(new ControlledPositionControl());
-    	addSequential(new ForwardAuto());
+    	addSequential(new ForwardAuto(3880,-3880));
     	addSequential(new TurnLeftAuto());
     	addSequential(new SlightDriveForwardAuto());
         // To run multiple commands at the same time,

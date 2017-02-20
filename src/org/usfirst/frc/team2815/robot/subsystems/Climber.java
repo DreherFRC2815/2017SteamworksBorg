@@ -16,19 +16,24 @@ public class Climber extends Subsystem {
     final int MAX_PCBUS = 1;
     
     //motor decleration
-    private Spark[] climbMotors;
+    private Spark[] climbMotors = new Spark[2];
     
     
     //incremented value for the motors setpoint
     private double setPoint;
     private double incVal;
     
+    private double negateValue = -1;
 	public Climber(){
 		setPoint = 1;
 		incVal = 0;
 		//motor initialization
 		climbMotors[0] = new Spark(RobotMap.climbMotorPorts[0]);
 		climbMotors[1] = new Spark(RobotMap.climbMotorPorts[1]);
+	}
+	
+	public void setNegateValue(double val){
+		negateValue = val;
 	}
 	
 	public void climb(boolean active){
@@ -46,8 +51,8 @@ public class Climber extends Subsystem {
     			if(incVal < 0)
     				incVal += .1;
 		}
-		climbMotors[0].set(-1*incVal);
-		climbMotors[1].set(incVal);
+		climbMotors[0].set(-negateValue * incVal);
+		climbMotors[1].set(negateValue * incVal);
 	}
 	
     public void initDefaultCommand() {
