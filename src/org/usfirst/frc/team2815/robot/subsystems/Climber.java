@@ -51,8 +51,8 @@ public class Climber extends Subsystem {
     			if(incVal < 0)
     				incVal += .1;
 		}
-		climbMotors[0].set(-negateValue * incVal);
-		climbMotors[1].set(negateValue * incVal);
+		climbMotors[0].set(negateValue * incVal);
+		climbMotors[1].set(-negateValue * incVal);
 	}
 	
     public void initDefaultCommand() {

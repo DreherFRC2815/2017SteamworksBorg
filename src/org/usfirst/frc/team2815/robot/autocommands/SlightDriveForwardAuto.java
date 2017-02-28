@@ -28,7 +28,7 @@ public class SlightDriveForwardAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveDistance(1360, -1360);
+    	Robot.driveTrain.driveDistance(1320, -1320);
     	
     	if(Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) > 30 &&
         		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) > 30 &&
@@ -38,12 +38,7 @@ public class SlightDriveForwardAuto extends Command {
         	finnishLock = false;
         }
     	
-    	SmartDashboard.putNumber("slight error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
-        SmartDashboard.putNumber("slight error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
-        SmartDashboard.putNumber("slight error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
-        SmartDashboard.putNumber("slight error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
-        
-        SmartDashboard.putBoolean("SlightLock", finnishLock);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

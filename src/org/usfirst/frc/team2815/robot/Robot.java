@@ -102,10 +102,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Rotations 0", driveTrain.SRXMotors[0].getEncPosition());
-		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[1].getEncPosition());
-		SmartDashboard.putNumber("Rotations 2", driveTrain.SRXMotors[2].getEncPosition());
-		SmartDashboard.putNumber("Rotations 3", driveTrain.SRXMotors[3].getEncPosition());
+		
 	}
 
 	/**
@@ -151,12 +148,7 @@ public class Robot extends IterativeRobot {
 		
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putNumber("gyroAngle", driveTrain.getGyroAngle());
 		
-		SmartDashboard.putNumber("Rotations 0", driveTrain.SRXMotors[0].getEncPosition());
-		SmartDashboard.putNumber("Rotations 1", driveTrain.SRXMotors[1].getEncPosition());
-		SmartDashboard.putNumber("Rotations 2", driveTrain.SRXMotors[2].getEncPosition());
-		SmartDashboard.putNumber("Rotations 3", driveTrain.SRXMotors[3].getEncPosition());
 	}
 
 	@Override
@@ -191,6 +183,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		SmartDashboard.putNumber("rotations for lF", driveTrain.SRXMotors[0].getEncPosition());
+		
 	}
 }

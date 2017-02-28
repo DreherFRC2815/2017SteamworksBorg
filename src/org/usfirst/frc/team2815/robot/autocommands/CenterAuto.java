@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterAuto extends CommandGroup {
 
     public CenterAuto() {
-        addSequential(new ForwardAuto(3500,-3500));
+        addSequential(new ForwardAuto(3495,-3495));
     	// Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

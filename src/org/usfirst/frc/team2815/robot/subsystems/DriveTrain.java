@@ -233,7 +233,7 @@ public class DriveTrain extends Subsystem {
 	
 	public void resetGyro(){
 		gyro.reset();
-		gyro.calibrate();
+		
 		
 	}
 	

@@ -41,29 +41,26 @@ public class ForwardAuto extends Command {
     	
     	Robot.driveTrain.driveDistance(lTarg,rTarg);
     	
-    	SmartDashboard.putNumber("forward error for 0", Robot.driveTrain.SRXMotors[0].getClosedLoopError());
-        SmartDashboard.putNumber("forward error for 1", Robot.driveTrain.SRXMotors[1].getClosedLoopError());
-        SmartDashboard.putNumber("forward error for 2", Robot.driveTrain.SRXMotors[2].getClosedLoopError());
-        SmartDashboard.putNumber("forward error for 3", Robot.driveTrain.SRXMotors[3].getClosedLoopError());
+    	
         
-        if(Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) > 20 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) > 20 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) > 20 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) > 20
-        	){
+        if(Math.abs(Robot.driveTrain.SRXMotors[0].getEncVelocity()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getEncVelocity()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getEncVelocity()) > 30 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getEncVelocity()) > 30
+        	){//.getClosedLoopError()) > 20
         	finnishLock = false;
         }
-        SmartDashboard.putBoolean("finnishLock", finnishLock);
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Robot.driveTrain.SRXMotors[0].getClosedLoopError()) < 200 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[1].getClosedLoopError()) < 200 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[2].getClosedLoopError()) < 200 &&
-        		Math.abs(Robot.driveTrain.SRXMotors[3].getClosedLoopError()) < 200 && finnishLock == false;
+        return Math.abs(Robot.driveTrain.SRXMotors[0].getEncVelocity()) < 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[1].getEncVelocity()) < 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[2].getEncVelocity()) < 20 &&
+        		Math.abs(Robot.driveTrain.SRXMotors[3].getEncVelocity()) < 20 && finnishLock == false;
         
-        
+        //.getClosedLoopError()) < 200
         
     }
 
